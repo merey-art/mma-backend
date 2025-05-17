@@ -1,0 +1,143 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type WeightClass {
+  id: Int!
+  name: String!
+  minWeight: Float!
+  maxWeight: Float!
+  fighters: [Fighter!]!
+}
+
+type Ranking {
+  id: Int!
+  fighter: Fighter!
+  position: Int!
+  date: String!
+}
+
+type Fighter {
+  id: Int!
+  name: String!
+  birthDate: String!
+  weightClass: WeightClass!
+  rankings: [Ranking!]!
+}
+
+type Event {
+  id: Int!
+  name: String!
+  location: String!
+  eventDate: String!
+  fights: [Fight!]!
+}
+
+type Fight {
+  id: Int!
+  event: Event!
+  fighterA: Fighter!
+  fighterB: Fighter!
+  result: String!
+  winner: Fighter
+}
+
+type FighterStatistics {
+  totalFights: Int!
+  totalWins: Int!
+  totalDraws: Int!
+}
+
+type Query {
+  fighters: [Fighter!]!
+  fighter(id: Int!): Fighter
+  fightHistory(fighterId: Int!): [Fight!]!
+  fighterStatistics(fighterId: Int!): FighterStatistics!
+  fights: [Fight!]!
+  fight(id: Int!): Fight
+  events: [Event!]!
+  event(id: Int!): Event
+  upcomingEvents: [Event!]!
+  Rankings: [Ranking!]!
+  Ranking(id: Int!): Ranking
+  weightClasses: [WeightClass!]!
+  weightClass(id: Int!): WeightClass
+}
+
+type Mutation {
+  createFighter(input: CreateFighterInput!): Fighter!
+  updateFighter(input: UpdateFighterInput!): Fighter!
+  removeFighter(id: Int!): Boolean!
+  createFight(input: CreateFightInput!): Fight!
+  updateFight(id: Int!, input: UpdateFightInput!): Fight!
+  removeFight(id: Int!): Boolean!
+  createEvent(input: CreateEventInput!): Event!
+  updateEvent(id: Int!, input: UpdateEventInput!): Event!
+  removeEvent(id: Int!): Boolean!
+  createRanking(input: CreateRankingInput!): Ranking!
+  updateRanking(input: CreateRankingInput!): Ranking!
+  removeRanking(id: Int!): Boolean!
+  createWeightClass(input: CreateWeightClassInput!): WeightClass!
+  updateWeightClass(id: Int!, input: UpdateWeightClassInput!): WeightClass!
+  removeWeightClass(id: Int!): Boolean!
+}
+
+input CreateFighterInput {
+  name: String!
+  birthDate: String!
+  weightClassId: Int!
+}
+
+input UpdateFighterInput {
+  name: String!
+  birthDate: String!
+  weightClassId: Int!
+}
+
+input CreateFightInput {
+  eventId: Int!
+  fighterAId: Int!
+  fighterBId: Int!
+  result: String!
+  winnerId: Int
+}
+
+input UpdateFightInput {
+  result: String
+  winnerId: Int
+}
+
+input CreateEventInput {
+  name: String!
+  location: String!
+  eventDate: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input UpdateEventInput {
+  name: String
+  location: String
+  eventDate: DateTime
+}
+
+input CreateRankingInput {
+  fighterId: Float!
+  position: Float!
+  date: DateTime!
+}
+
+input CreateWeightClassInput {
+  name: String!
+  minWeight: Float!
+  maxWeight: Float!
+}
+
+input UpdateWeightClassInput {
+  name: String
+  minWeight: Float
+  maxWeight: Float
+}
