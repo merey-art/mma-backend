@@ -10,17 +10,26 @@ export class FightService {
     private readonly repo: Repository<Fight>,
   ) {}
 
-  create(data: Partial<Fight>) {
-    return this.repo.save(data);
+  async create(data: Partial<Fight>): Promise<Fight | null> {
+    const saved = await this.repo.save(data);
+    return this.repo.findOne({
+      where: { id: saved.id },
+      relations: ['fighterA', 'fighterB', 'winner', 'event'],
+    });
   }
+
 
   findAll() {
     return this.repo.find({ relations: ['event', 'fighterA', 'fighterB'] });
   }
 
-  findOne(id: number) {
-    return this.repo.findOne({ where: { id }, relations: ['event', 'fighterA', 'fighterB'] });
+  async findOne(id: number): Promise<Fight | null> {
+    return this.repo.findOne({
+      where: { id },
+      relations: ['fighterA', 'fighterB', 'winner', 'event'],
+    });
   }
+
 
   update(id: number, data: Partial<Fight>) {
     return this.repo.update(id, data);

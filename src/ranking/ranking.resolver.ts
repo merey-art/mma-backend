@@ -6,16 +6,16 @@ import { UpdateRankingInput } from './dto/update-ranking.input';
 
 @Resolver(() => Ranking)
 export class RankingResolver {
-  constructor(private readonly svc: RankingService) {}
+  constructor(private readonly rankingService: RankingService) {}
 
   @Query(() => [Ranking])
-  Rankings() {
-    return this.svc.findAll();
+  rankings() {
+    return this.rankingService.findAll();
   }
 
   @Query(() => Ranking, { nullable: true })
   Ranking(@Args('id', { type: () => Int }) id: number) {
-    return this.svc.findOne(id);
+    return this.rankingService.findOne(id);
   }
 
   @Mutation(() => Ranking)
@@ -25,7 +25,7 @@ export class RankingResolver {
       position: input.position,
       date: new Date(input.date),
     };
-    return this.svc.create(dto);
+    return this.rankingService.create(dto);
   }
 
   @Mutation(() => Ranking)
@@ -35,12 +35,12 @@ export class RankingResolver {
       position: input.position,
       date: new Date(input.date),
     };
-    return this.svc.create(dto);
+    return this.rankingService.create(dto);
   }
 
 
   @Mutation(() => Boolean)
   removeRanking(@Args('id', { type: () => Int }) id: number) {
-    return this.svc.remove(id).then(() => true);
+    return this.rankingService.remove(id).then(() => true);
   }
 }

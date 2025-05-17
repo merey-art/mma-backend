@@ -28,6 +28,7 @@ export class Fight {
 
   @Field(() => Fighter, { nullable: true })
   @ManyToOne(() => Fighter, { nullable: true })
+  @JoinColumn({ name: 'winnerId' })
   winner?: Fighter;
 }
 

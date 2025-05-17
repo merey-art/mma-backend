@@ -14,16 +14,26 @@ export class FighterService {
     private readonly fightRepo: Repository<Fight>,
   ) {}
 
-  create(fighter: Partial<Fighter>) {
-    return this.fighterRepo.save(fighter);
+  async create(fighter: Partial<Fighter>) {
+    const saved = await this.fighterRepo.save(fighter);
+    return this.fighterRepo.findOne({
+      where: { id: saved.id },
+      relations: ['weightClass'],
+    });
+
   }
 
   findAll() {
-    return this.fighterRepo.find();
+    return this.fighterRepo.find({ relations: ['weightClass'] });
+
   }
 
   findOne(id: number) {
-    return this.fighterRepo.findOne({ where: { id } });
+    return this.fighterRepo.findOne({
+      where: { id },
+      relations: ['weightClass'],
+    });
+
   }
 
   update(id: number, fighter: Partial<Fighter>) {

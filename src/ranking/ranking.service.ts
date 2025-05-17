@@ -15,8 +15,12 @@ export class RankingService {
   }
 
   findAll() {
-    return this.repo.find({ relations: ['fighter'] });
+    return this.repo.find({
+      relations: ['fighter'],
+      order: { position: 'ASC' },
+    });
   }
+
 
   findOne(id: number) {
     return this.repo.findOne({ where: { id }, relations: ['fighter'] });

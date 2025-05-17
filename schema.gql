@@ -58,7 +58,7 @@ type Query {
   events: [Event!]!
   event(id: Int!): Event
   upcomingEvents: [Event!]!
-  Rankings: [Ranking!]!
+  rankings: [Ranking!]!
   Ranking(id: Int!): Ranking
   weightClasses: [WeightClass!]!
   weightClass(id: Int!): WeightClass

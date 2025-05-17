@@ -1,0 +1,60 @@
+// -- 1. Классы весов
+// CREATE TABLE weight_class (
+//     id            SERIAL PRIMARY KEY,                         // Уникальный идентификатор класса веса
+//     name          VARCHAR(50)   NOT NULL,                     // Название класса веса (например, легкий, средний)
+//     min_weight    DECIMAL(5,2)  NOT NULL,                     // Минимальный вес бойца для класса
+//     max_weight    DECIMAL(5,2)  NOT NULL                      // Максимальный вес бойца для класса
+// );
+
+// -- 2. Бойцы
+// CREATE TABLE fighter (
+//     id               SERIAL PRIMARY KEY,                      // Уникальный идентификатор бойца
+//     name             VARCHAR(100) NOT NULL,                   // Имя бойца
+//     birth_date       DATE,                                    // Дата рождения бойца
+//     weight_class_id  INTEGER      NOT NULL                    // Внешний ключ на класс веса
+//         REFERENCES weight_class(id)                           // Связь с таблицей классов веса
+// );
+
+// -- 3. События
+// CREATE TABLE event (
+//     id          SERIAL PRIMARY KEY,                           // Уникальный идентификатор события
+//     name        VARCHAR(100) NOT NULL,                        // Название события
+//     location    VARCHAR(100),                                 // Местоположение (город, арена и т.д.)
+//     event_date  DATE         NOT NULL                         // Дата проведения события
+// );
+
+// -- 4. Бои
+// CREATE TABLE fight (
+//     id            SERIAL PRIMARY KEY,                         // Уникальный идентификатор боя
+//     event_id      INTEGER NOT NULL                            // Внешний ключ на событие
+//         REFERENCES event(id),                                 // Связь с таблицей событий
+//     fighter1_id   INTEGER NOT NULL                            // Идентификатор первого бойца
+//         REFERENCES fighter(id),                               // Связь с таблицей бойцов
+//     fighter2_id   INTEGER NOT NULL                            // Идентификатор второго бойца
+//         REFERENCES fighter(id),                               // Связь с таблицей бойцов
+//     scheduled_at  TIMESTAMP,                                  // Запланированное время боя
+//     CONSTRAINT chk_distinct_fighters CHECK (fighter1_id <> fighter2_id)  // Ограничение: бойцы должны быть разными
+// );
+
+// -- 5. Результаты боёв
+// CREATE TABLE fight_result (
+//     fight_id   INTEGER PRIMARY KEY                            // Идентификатор боя (и одновременно первичный ключ)
+//         REFERENCES fight(id),                                 // Связь с таблицей боёв
+//     winner_id  INTEGER                                        // Победитель (внешний ключ на бойца)
+//         REFERENCES fighter(id),                               // Связь с таблицей бойцов
+//     method     VARCHAR(50),                                   // Метод победы (например, KO, Submission, Decision)
+//     round_no   INTEGER,                                       // Раунд, в котором завершился бой
+//     finish_time TIME                                          // Время завершения боя
+// );
+
+// -- 6. Рейтинги
+// CREATE TABLE ranking (
+//     id              SERIAL PRIMARY KEY,                       // Уникальный идентификатор записи рейтинга
+//     fighter_id      INTEGER NOT NULL                          // Идентификатор бойца
+//         REFERENCES fighter(id),                               // Связь с таблицей бойцов
+//     weight_class_id INTEGER NOT NULL                          // Идентификатор класса веса
+//         REFERENCES weight_class(id),                          // Связь с таблицей классов веса
+//     points          INTEGER NOT NULL,                         // Количество очков в рейтинге
+//     rank_date       DATE    NOT NULL DEFAULT CURRENT_DATE     // Дата, на которую зафиксирован рейтинг
+// );
+// owner postgres password 1234
